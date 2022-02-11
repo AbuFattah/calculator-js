@@ -118,6 +118,7 @@ function clrAll() {
   leftOperand = null;
   rightOperand = null;
   updateDisplays(leftOperand, null);
+  incrementFontSize(bottomDisplay);
 }
 
 function calculate(leftOperand, operator, rightOperand) {
@@ -144,6 +145,7 @@ equals.addEventListener("click", (e) => {
   rightOperand = null;
   state.complete = 1;
   updateDisplays(leftOperand, operator);
+  decrementFontSize(bottomDisplay);
 });
 
 function updateDisplays(leftOperand, operator) {
