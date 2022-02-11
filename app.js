@@ -6,6 +6,22 @@ const clrBtns = document.querySelectorAll("[data-clr]");
 const dTop = document.querySelector(".display-top");
 const dBottom = document.querySelector(".display-bottom");
 
+let bottomDisplay = document.querySelector(".display-bottom");
+
+// let fontSize = bottomDisplay.fontSize;
+// bottomDisplay.style.fontSize = `20px`;
+let fontSize = 50;
+
+function decrementFontSize(elem) {
+  if (elem.scrollWidth > elem.clientWidth) {
+    elem.style.fontSize = `${fontSize / 1.5}px`;
+  }
+}
+
+function incrementFontSize(elem) {
+  elem.style.fontSize = `${fontSize}px`;
+}
+
 let state = {
   complete: 0,
 };
@@ -14,6 +30,8 @@ let input = ""; //its set to '' to avoid 0 in the beginning
 let periodCount = 0;
 numBtns.forEach((numBtn) => {
   numBtn.addEventListener("click", (e) => {
+    if (input.length == 17) return;
+    decrementFontSize(bottomDisplay);
     const targtNum = e.target.textContent;
 
     if (dBottom.textContent == "0" && targtNum == "0") return;
@@ -42,6 +60,10 @@ delBtn.addEventListener("click", () => {
   }
   input = input.slice(0, -1);
   dBottom.textContent = input;
+
+  if (input.length < 10) {
+    incrementFontSize(bottomDisplay);
+  }
 });
 
 let [CEbtn, Cbtn] = [...clrBtns];
