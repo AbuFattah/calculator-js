@@ -1,0 +1,77 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:100,100italic,300,300italic,regular,italic,500,500italic,700,700italic,900,900italic);
+
+body {
+  font-family: "Roboto";
+}
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #777777d2;
+}
+
+.cal-container {
+  display: grid;
+  grid-template-columns: repeat(4, 80px);
+  grid-auto-rows: 60px;
+  gap: 4px;
+  width: fit-content;
+  background-color: #251a2b;
+  padding: 4px;
+  border-radius: 5px;
+}
+
+.cal-display {
+  grid-column: 1/5;
+  grid-row: 1/3;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  padding: 10px 0;
+  cursor: default;
+  overflow: hidden;
+}
+.inner-display {
+  flex: 1;
+  text-align: end;
+  /* overflow: hidden; */
+}
+
+.display-top {
+  color: #d4d4d4;
+}
+.display-bottom {
+  font-size: 50px;
+  color: #ffffff;
+}
+
+.keypad {
+  background-color: #322f35d2;
+  border: 0;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 1.4rem;
+}
+.keypad:hover {
+  background-color: #3b3b3baf;
+}
+
+.keypad:active {
+  background-color: #3b3b3bab;
+}
+
+.keypad:last-of-type {
+  background-color: #4cc2ff;
+  color: #000;
+}
+.keypad:last-of-type:hover {
+  background-color: #4cc3ffe3;
+}
+.keypad:last-of-type:active {
+  background-color: #4cc3ffc9;
+}
+
+.keypad--complex {
+  font-size: 0.8rem;
+}
