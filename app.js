@@ -6,7 +6,11 @@ const clrBtns = document.querySelectorAll("[data-clr]");
 const dTop = document.querySelector(".display-top");
 const dBottom = document.querySelector(".display-bottom");
 
-let bottomNum = ""; //its set to '' to avoid 0 in the beginning
+let state = {
+  complete: 0,
+};
+
+let input = ""; //its set to '' to avoid 0 in the beginning
 let periodCount = 0;
 numBtns.forEach((numBtn) => {
   numBtn.addEventListener("click", (e) => {
@@ -16,28 +20,43 @@ numBtns.forEach((numBtn) => {
     if (targtNum == "." && periodCount > 0) return;
     if (targtNum == ".") periodCount++;
     if (dBottom.textContent == "0" && targtNum == ".") {
-      bottomNum = "0";
+      input = "0";
     }
-    bottomNum = bottomNum + targtNum;
-    dBottom.textContent = bottomNum;
+    input = input + targtNum;
+    dBottom.textContent = input;
   });
 });
 
-const delBtn = clrBtns[2];
+const delBtn = document.querySelector("[data-del]");
 
 delBtn.addEventListener("click", () => {
-  if (leftOperand && !bottomNum) return;
-  if (bottomNum.slice(-1) == ".") {
+  if (leftOperand && !input) return;
+  if (input.slice(-1) == ".") {
     periodCount = 0;
   }
-  if (bottomNum.length <= 1) {
+  if (input.length <= 1) {
     dBottom.textContent = "0";
     //setting dBottomNum to '' to avoid concatening 0 in the beginning while adding new nums;
-    bottomNum = "";
+    input = "";
     return;
   }
-  bottomNum = bottomNum.slice(0, -1);
-  dBottom.textContent = bottomNum;
+  input = input.slice(0, -1);
+  dBottom.textContent = input;
+});
+
+let [CEbtn, Cbtn] = [...clrBtns];
+
+Cbtn.addEventListener("click", (e) => {
+  clrAll();
+});
+
+CEbtn.addEventListener("click", (e) => {
+  if (state.complete == 1) {
+    clrAll();
+    return;
+  }
+  input = "";
+  dBottom.textContent = "0";
 });
 
 // operator portion
@@ -45,33 +64,39 @@ let leftOperand, rightOperand, operator;
 
 operators.forEach((item) => {
   item.addEventListener("click", (e) => {
-    let temp = Number(bottomNum);
-    if (!temp) {
+    let newNum = Number(input);
+    if (!newNum) {
       if (leftOperand == null) return;
       operator = e.target.textContent[1];
-      // dTop.textContent = leftOperand + e.target.textContent;
-      updateTopDisplay(leftOperand, operator);
+      dTop.textContent = leftOperand + e.target.textContent;
+      // updateTopDisplay(leftOperand, operator);
       return;
     }
     console.log(operator);
-    console.log(temp);
+    console.log(newNum);
     if (leftOperand && !rightOperand) {
-      rightOperand = temp;
+      rightOperand = newNum;
       leftOperand = calculate(leftOperand, operator, rightOperand);
       rightOperand = null;
       dBottom.textContent = leftOperand;
       dTop.textContent = leftOperand + e.target.textContent;
-      bottomNum = "";
+      input = "";
+      state.complete = 1;
       return;
     }
     operator = e.target.textContent[1];
-    leftOperand = temp;
-    // dBottom.textContent = "";
-    dTop.textContent = bottomNum + e.target.textContent;
-    bottomNum = "";
-    // console.log(leftOperand, rightOperand);
+    leftOperand = newNum;
+
+    updateTopDisplay(input, e.target.textContent[1]);
+    state.complete = 0;
   });
 });
+
+function clrAll() {
+  leftOperand = null;
+  rightOperand = null;
+  updateDisplays(leftOperand, null);
+}
 
 function calculate(leftOperand, operator, rightOperand) {
   switch (operator) {
@@ -92,14 +117,25 @@ const equals = document.querySelector("[data-equals]");
 
 equals.addEventListener("click", (e) => {
   if (!leftOperand) return;
-  rightOperand = Number(bottomNum);
+  rightOperand = Number(input);
   leftOperand = calculate(leftOperand, operator, rightOperand);
   rightOperand = null;
-  bottomNum = "";
+  state.complete = 1;
   updateDisplays(leftOperand, operator);
 });
 
 function updateDisplays(leftOperand, operator) {
   dTop.textContent = leftOperand + " " + operator;
   dBottom.textContent = leftOperand;
+
+  if (leftOperand == null && operator == null) {
+    dTop.textContent = "";
+    dBottom.textContent = "0";
+  }
+  input = "";
+}
+
+function updateTopDisplay(leftOperand, operator) {
+  dTop.textContent = leftOperand + " " + operator;
+  input = "";
 }
