@@ -8,10 +8,7 @@ const dBottom = document.querySelector(".display-bottom");
 
 let bottomDisplay = document.querySelector(".display-bottom");
 
-// let fontSize = bottomDisplay.fontSize;
-// bottomDisplay.style.fontSize = `20px`;
 let fontSize = 50;
-
 function decrementFontSize(elem) {
   if (elem.scrollWidth > elem.clientWidth) {
     elem.style.fontSize = `${fontSize / 1.5}px`;
@@ -44,6 +41,8 @@ numBtns.forEach((numBtn) => {
     dBottom.textContent = input;
   });
 });
+
+// DELETE FUNCTIONS
 
 const delBtn = document.querySelector("[data-del]");
 
@@ -81,7 +80,7 @@ CEbtn.addEventListener("click", (e) => {
   dBottom.textContent = "0";
 });
 
-// operator portion
+// OPERATION FUNCTIONS
 let leftOperand, rightOperand, operator;
 
 operators.forEach((item) => {
@@ -91,11 +90,8 @@ operators.forEach((item) => {
       if (leftOperand == null) return;
       operator = e.target.textContent[1];
       dTop.textContent = leftOperand + e.target.textContent;
-      // updateTopDisplay(leftOperand, operator);
       return;
     }
-    console.log(operator);
-    console.log(newNum);
     if (leftOperand && !rightOperand) {
       rightOperand = newNum;
       leftOperand = calculate(leftOperand, operator, rightOperand);
