@@ -108,6 +108,8 @@ operators.forEach((item) => {
     updateTopDisplay(input, e.target.textContent[1]);
     state.complete = 0;
   });
+
+  periodCount = 0;
 });
 
 function clrAll() {
