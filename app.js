@@ -29,15 +29,14 @@ numBtns.forEach((numBtn) => {
   numBtn.addEventListener("click", (e) => {
     if (input.length == 17) return;
     decrementFontSize(bottomDisplay);
-    const targtNum = e.target.textContent;
-
-    if (dBottom.textContent == "0" && targtNum == "0") return;
-    if (targtNum == "." && periodCount > 0) return;
-    if (targtNum == ".") periodCount++;
-    if (dBottom.textContent == "0" && targtNum == ".") {
+    const targetNum = e.target.textContent;
+    if (input.length == 1 && input[0] == "0" && targetNum == "0") return;
+    if (targetNum == "." && periodCount > 0) return;
+    if (targetNum == ".") periodCount++;
+    if (dBottom.textContent == "0" && targetNum == ".") {
       input = "0";
     }
-    input = input + targtNum;
+    input = input + targetNum;
     dBottom.textContent = input;
   });
 });
@@ -85,6 +84,7 @@ let leftOperand, rightOperand, operator;
 
 operators.forEach((item) => {
   item.addEventListener("click", (e) => {
+    periodCount = 0;
     let newNum = Number(input);
     if (!newNum) {
       if (leftOperand == null) return;
